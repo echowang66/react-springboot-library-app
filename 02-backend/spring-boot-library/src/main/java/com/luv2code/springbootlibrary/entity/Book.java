@@ -1,8 +1,6 @@
 package com.luv2code.springbootlibrary.entity;
-
 import jakarta.persistence.*;
 import lombok.Data;
-//import javax.persistence.*;
 @Entity
 @Table(name = "book")
 @Data
@@ -32,4 +30,5 @@ public class Book {
 
     @Column(name = "img")
     private String img;
+
 }
