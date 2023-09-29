@@ -1,0 +1,4 @@
+com/luv2code/springbootlibrary/entity/Book.class
+com/luv2code/springbootlibrary/dao/BookRepository.class
+com/luv2code/springbootlibrary/SpringBootLibraryApplication.class
+com/luv2code/springbootlibrary/cofig/MyDataRestConfig.class
