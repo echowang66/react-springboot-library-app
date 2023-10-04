@@ -1,4 +1,11 @@
-/Users/bijunwang/Documents/library_app/02-backend/spring-boot-library/src/main/java/com/luv2code/springbootlibrary/cofig/MyDataRestConfig.java
+/Users/bijunwang/Documents/library_app/02-backend/spring-boot-library/src/main/java/com/luv2code/springbootlibrary/entity/Review.java
+/Users/bijunwang/Documents/library_app/02-backend/spring-boot-library/src/main/java/com/luv2code/springbootlibrary/config/SecurityConfiguration.java
+/Users/bijunwang/Documents/library_app/02-backend/spring-boot-library/src/main/java/com/luv2code/springbootlibrary/service/BookService.java
+/Users/bijunwang/Documents/library_app/02-backend/spring-boot-library/src/main/java/com/luv2code/springbootlibrary/config/MyDataRestConfig.java
 /Users/bijunwang/Documents/library_app/02-backend/spring-boot-library/src/main/java/com/luv2code/springbootlibrary/entity/Book.java
+/Users/bijunwang/Documents/library_app/02-backend/spring-boot-library/src/main/java/com/luv2code/springbootlibrary/dao/CheckoutRepository.java
+/Users/bijunwang/Documents/library_app/02-backend/spring-boot-library/src/main/java/com/luv2code/springbootlibrary/entity/Checkout.java
+/Users/bijunwang/Documents/library_app/02-backend/spring-boot-library/src/main/java/com/luv2code/springbootlibrary/controller/BookController.java
+/Users/bijunwang/Documents/library_app/02-backend/spring-boot-library/src/main/java/com/luv2code/springbootlibrary/dao/ReviewRepository.java
 /Users/bijunwang/Documents/library_app/02-backend/spring-boot-library/src/main/java/com/luv2code/springbootlibrary/dao/BookRepository.java
 /Users/bijunwang/Documents/library_app/02-backend/spring-boot-library/src/main/java/com/luv2code/springbootlibrary/SpringBootLibraryApplication.java

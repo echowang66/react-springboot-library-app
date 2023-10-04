@@ -1,4 +1,11 @@
+com/luv2code/springbootlibrary/config/MyDataRestConfig.class
+com/luv2code/springbootlibrary/service/BookService.class
+com/luv2code/springbootlibrary/entity/Checkout.class
+com/luv2code/springbootlibrary/dao/CheckoutRepository.class
 com/luv2code/springbootlibrary/entity/Book.class
+com/luv2code/springbootlibrary/dao/ReviewRepository.class
+com/luv2code/springbootlibrary/controller/BookController.class
+com/luv2code/springbootlibrary/config/SecurityConfiguration.class
 com/luv2code/springbootlibrary/dao/BookRepository.class
 com/luv2code/springbootlibrary/SpringBootLibraryApplication.class
-com/luv2code/springbootlibrary/cofig/MyDataRestConfig.class
+com/luv2code/springbootlibrary/entity/Review.class
