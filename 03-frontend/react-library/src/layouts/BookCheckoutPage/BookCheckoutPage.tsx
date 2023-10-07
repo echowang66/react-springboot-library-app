@@ -4,22 +4,37 @@ import ReviewModel from "../../models/ReviewModel";
 import { SpinnerLoading } from "../Utils/SpinnerLoading";
 import { StarsReview } from "../Utils/StarsReview";
 import { CheckoutAndReviewBox } from "./CheckoutAndReviewBox";
-import { LatestReviews } from "./LastestReviews";
-
+import { LatestReviews } from "./LatestReviews";
+import { useOktaAuth } from "@okta/okta-react";
+import { error } from "console";
 
 export const BookCheckoutPage = () => {
+  // New  info for checkout function
+  const { authState } = useOktaAuth();
+
   const [book, setBook] = useState<BookModel>();
   const [isLoading, setIsLoading] = useState(true);
   const [httpError, setHttpError] = useState(null);
 
   // review State
 
-  const[reviews, setReviews] = useState<ReviewModel[]>([]);
-  const[totalStars, setTotalStars] = useState(0);
-  const[isLoadingReview, setIsLoadingReview] = useState(true);
+  const [reviews, setReviews] = useState<ReviewModel[]>([]);
+  const [totalStars, setTotalStars] = useState(0);
+  const [isLoadingReview, setIsLoadingReview] = useState(true);
+
+  // Loans Count state
+
+  const [currentLoansCount, setCurrentLoansCount] = useState(0);
+  const [isLoadingCurrentLoansCount, setIsLoadingCurrentLoansCount] =
+    useState(true);
+
+  // Is book check out?
+  const [isCheckedOut, setIsCheckedOut] = useState(false);
+  const [isLoadingBookCheckedOut, setIsLoadingBookCheckedOut] = useState(true);
+
+
 
   const bookId = window.location.pathname.split("/")[2];
-
   useEffect(() => {
     const fetchBook = async () => {
       const baseUrl: string = `http://localhost:8080/api/books/${bookId}`;
@@ -54,51 +69,141 @@ export const BookCheckoutPage = () => {
 
   // review Function
 
-
   useEffect(() => {
     const fetchBookReviews = async () => {
-        const reviewUrl: string = `http://localhost:8080/api/reviews/search/findByBookId?bookId=${bookId}`;
+      const reviewUrl: string = `http://localhost:8080/api/reviews/search/findByBookId?bookId=${bookId}`;
 
-        const responseReviews = await fetch(reviewUrl);
+      const responseReviews = await fetch(reviewUrl);
 
-        if(!responseReviews.ok) {
-            throw new Error("Something went wrong!");
-        }
+      if (!responseReviews.ok) {
+        throw new Error("Something went wrong!");
+      }
 
-        const responseJsonReviews = await responseReviews.json();
-        const responseData = responseJsonReviews._embedded.reviews;
-        const loadedReviews : ReviewModel[] = [];
+      const responseJsonReviews = await responseReviews.json();
+      const responseData = responseJsonReviews._embedded.reviews;
+      const loadedReviews: ReviewModel[] = [];
 
-        let weightedStarReviews: number = 0;
-        for(const key in responseData){
-          loadedReviews.push({
-            id : responseData[key].id,
-            userEmail: responseData[key].userEmail,
-            date: responseData[key].date,
-            rating: responseData[key].rating,
-            book_id : responseData[key].book_id,
-            reviewDescription: responseData[key].reviewDescription,
-          });
-          weightedStarReviews = weightedStarReviews + responseData[key].rating;
-        }
-        if(loadedReviews) {
-          const round = (Math.round((weightedStarReviews/ loadedReviews.length) * 2) /2).toFixed(1);
-          setTotalStars(Number(round));
-        }
+      let weightedStarReviews: number = 0;
+      for (const key in responseData) {
+        loadedReviews.push({
+          id: responseData[key].id,
+          userEmail: responseData[key].userEmail,
+          date: responseData[key].date,
+          rating: responseData[key].rating,
+          book_id: responseData[key].book_id,
+          reviewDescription: responseData[key].reviewDescription,
+        });
+        weightedStarReviews = weightedStarReviews + responseData[key].rating;
+      }
+      if (loadedReviews) {
+        const round = (
+          Math.round((weightedStarReviews / loadedReviews.length) * 2) / 2
+        ).toFixed(1);
+        setTotalStars(Number(round));
+      }
 
-        setReviews(loadedReviews);
-        setIsLoadingReview(false);
+      setReviews(loadedReviews);
+      setIsLoadingReview(false);
     };
 
     fetchBookReviews().catch((error: any) => {
       setIsLoadingReview(false);
       setHttpError(error.message);
     });
-  },[]);
+  }, []);
+
+  // checkout useEffect()
+  useEffect(() => {
+    const fetchUserCurrentLoansCount = async () => {
+      if (authState && authState.isAuthenticated) {
+        const url = `http://localhost:8080/api/books/secure/currentloans/count`;
+        const requestOptions = {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${authState.accessToken?.accessToken}`,
+            "Content-Type": "application/json",
+          },
+        };
+        const currentLoansCountResponse = await fetch(url, requestOptions);
+        if (!currentLoansCountResponse.ok) {
+          throw new Error("Something went wrong!");
+        }
+        const currentLoansCountResponseJson =
+          await currentLoansCountResponse.json();
+        setCurrentLoansCount(currentLoansCountResponseJson);
+      }
+      setIsLoadingCurrentLoansCount(false);
+    };
+    fetchUserCurrentLoansCount().catch((error: any) => {
+      setIsLoadingCurrentLoansCount(false);
+      setHttpError(error.message);
+    });
+  }, [authState]);
+
+  // Is checked out function?
+  // useEffect(() => {
+  //   const fetchUserCheckedOutBook = async () => {
+  //     if (authState && authState.isAuthenticated) {
+  //       const url = `http://localhost:8080/api/books/secure/ischeckedout/byuser/?bookId=${bookId}`;
+  //       const requestOptions = {
+  //         method: "GET",
+  //         headers: {
+  //           Authorization: `Bearer ${authState.accessToken?.accessToken}`,
+  //           "Content-Type": "application/json",
+  //         },
+  //       };
+
+  //       const bookCheckedOut = await fetch(url, requestOptions);
+  //       if (!bookCheckedOut.ok) {
+  //         throw new Error("Something went wrong!");
+  //       }
+  //       const bookCheckedOutResponseJson = await bookCheckedOut.json();
+  //       setIsCheckedOut(bookCheckedOutResponseJson);
+  //     }
+  //     setIsLoadingBookCheckedOut(false);
+  //   };
+  //   fetchUserCheckedOutBook().catch((error: any) => {
+  //     setIsLoadingBookCheckedOut(false);
+  //     setHttpError(error.message);
+  //   });
+  // }, [authState]);
+//   useEffect(() => {
+//     const fetchUserCheckedOutBook = async () => {
+//         if (authState && authState.isAuthenticated) {
+//             const url = `http://localhost:8080/api/books/secure/ischeckedout/byuser/?bookId=${bookId}`;
+//             const requestOptions = {
+//                 method: 'GET',
+//                 headers: {
+//                     Authorization: `Bearer ${authState.accessToken?.accessToken}`,
+//                     'Content-Type': 'application/json'
+//                 }
+//             };
+//             const bookCheckedOut = await fetch(url, requestOptions);
+
+//             if (!bookCheckedOut.ok) {
+//                 throw new Error('Something went wrong!');
+//             }
+
+//             const bookCheckedOutResponseJson = await bookCheckedOut.json();
+//             setIsCheckedOut(bookCheckedOutResponseJson);
+//         }
+//         setIsLoadingBookCheckedOut(false);
+//     }
+//     fetchUserCheckedOutBook().catch((error: any) => {
+//         setIsLoadingBookCheckedOut(false);
+//         setHttpError(error.message);
+//     })
+// }, [authState]);
+
+
 
   // before is loadingReview
+  if (
+    isLoading ||
+    isLoadingReview ||
+    isLoadingCurrentLoansCount
 
-  if (isLoading || isLoadingReview) {
+  ) {
     return <SpinnerLoading />;
   }
 
@@ -134,10 +239,14 @@ export const BookCheckoutPage = () => {
               <StarsReview rating={totalStars} size={32} />
             </div>
           </div>
-          <CheckoutAndReviewBox book={book} mobile={false} />
+          <CheckoutAndReviewBox
+            book={book}
+            mobile={false}
+            currentLoansCount={currentLoansCount}
+          />
         </div>
         <hr />
-        <LatestReviews reviews={reviews} bookId={book?.id} mobile={false}/>
+        <LatestReviews reviews={reviews} bookId={book?.id} mobile={false} />
       </div>
       <div className="container d-lg-none mt-5">
         <div className="d-flex justify-content-center align-items-center">
@@ -160,9 +269,13 @@ export const BookCheckoutPage = () => {
             <StarsReview rating={totalStars} size={32} />
           </div>
         </div>
-        <CheckoutAndReviewBox book={book} mobile={true} />
+        <CheckoutAndReviewBox
+          book={book}
+          mobile={true}
+          currentLoansCount={currentLoansCount}
+        />
         <hr />
-        <LatestReviews reviews={reviews} bookId={book?.id} mobile={true}/>
+        <LatestReviews reviews={reviews} bookId={book?.id} mobile={true} />
       </div>
     </div>
   );
