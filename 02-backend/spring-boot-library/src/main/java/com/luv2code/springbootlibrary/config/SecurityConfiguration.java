@@ -26,7 +26,7 @@ public class SecurityConfiguration {
         httpSec.authorizeHttpRequests(configurer ->
                         configurer
                                 .requestMatchers("/api/books/secure/**").authenticated()
-                                .requestMatchers("/api/books/**", "/api/reviews/**").permitAll())
+                                .requestMatchers("/api/books/**", "/api/reviews/**","api/histories/search/**").permitAll())
                 .oauth2ResourceServer().jwt();
 
         // add content negotiation strategy
