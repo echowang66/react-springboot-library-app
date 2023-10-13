@@ -2,8 +2,10 @@ package com.luv2code.springbootlibrary.entity;
 
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
+@Data
 @Table(name = "messages")
 public class Message {
     public Message(){}
