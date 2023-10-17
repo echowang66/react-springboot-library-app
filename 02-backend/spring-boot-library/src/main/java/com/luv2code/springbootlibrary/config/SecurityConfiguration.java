@@ -28,7 +28,10 @@ public class SecurityConfiguration {
                                 .requestMatchers("/api/books/secure/**").authenticated()
                                 .requestMatchers("/api/books/**", "/api/reviews/**",
                                         "api/histories/search/**",
-                                        "api/messages/secure/**").permitAll())
+                                        "api/messages/secure/**",
+                                        "api/messages/search/**"
+
+                                        ).permitAll())
                 .oauth2ResourceServer().jwt();
 
         // add content negotiation strategy
