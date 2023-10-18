@@ -29,7 +29,9 @@ public class SecurityConfiguration {
                                 .requestMatchers("/api/books/**", "/api/reviews/**",
                                         "api/histories/search/**",
                                         "api/messages/secure/**",
-                                        "api/messages/search/**"
+                                        "api/messages/search/**",
+                                        "api/admin/secure/**"
+
 
                                         ).permitAll())
                 .oauth2ResourceServer().jwt();
