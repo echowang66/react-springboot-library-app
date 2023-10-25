@@ -30,7 +30,9 @@ public class SecurityConfiguration {
                                         "api/histories/search/**",
                                         "api/messages/secure/**",
                                         "api/messages/search/**",
-                                        "api/admin/secure/**"
+                                        "api/admin/secure/**",
+                                        "api/payments/**",
+                                        "api/payment/secure/**"
 
 
                                         ).permitAll())
