@@ -1,6 +1,6 @@
 # Project Name: react-springboot-library-app
 
-## Developed and deployed a full-stack library web application on AWS EC2, featuring a self-designed initial UX model including user login, book search, shelf display, checkout, payment processing, and some library supported services.
+### Developed and deployed a full-stack library web application on AWS EC2, featuring a self-designed initial UX model including user login, book search, shelf display, checkout, payment processing, and some library supported services.
 
 This project is Full Stack applications with React and Java Spring Boot. These are hot skills and companies are desperately looking for develper since I did some research online. Here are most important aspects of the project:
 
