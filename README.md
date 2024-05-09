@@ -12,11 +12,11 @@ This project is Full Stack applications with React and Java Spring Boot. These a
 ## Click the Website to see how it looks
 <a href = "https://3.91.81.230/home">
 
-* There are two accounts that you could log in to try their different roles
-  1: The account for client :
+### There are two accounts that you could log in to try their different roles
+  * The account for client :
   userName: testuser@email.com
   password: Zxcv1234.
-  2: The account for admin:
+  * The account for admin:
   userName: adminuser@email.com
   password: Zxcv1234.
 
